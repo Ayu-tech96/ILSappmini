@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILS Calibration Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body> 
+  
+    <div class="container">
+      <h1>ILS(RTS) Calibration Tool</h1>
+ <footer>
+            <p class="watermark">ILS RCDU AAI</p>
+            <p class="credit">By:Ayush Kaushik A.M(CNS), RCDU, AAI</p>
+        </footer>
+   
+      <div class="login-container" id="loginContainer">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter Username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter Password" required>
+            </div>
+            <button type="button" onclick="validateLogin()">Login</button>
+            <p id="error-message"></p>
+        </form>
+    </div>
+      
+ <!-- After Login, Tabs and Content -->
+    <div id="ilsContainer" style="display:none;">
+       
+
+        <!-- Tabs for General Calculations and Calibration Settings -->
+        <div class="tab">
+          <button class="tablinks active" id="defaultOpen" onclick="openTab('llz')">Localizer Calibration</button>
+          <button class="tablinks active" id="defaultOpen" onclick="openTab('gp')">GlidePath Calibration</button>
+            <button class="tablinks" onclick="openTab('general')">General Calculations</button>
+              <!--  <button class="tablinks" onclick="openTab('limits')">ILS ICAO LIMITS</button> -->
+        </div>
+      
+      
+      
+        
+
+        <!-- Localizer Calibration (LLZ) Section -->
+       
+          <div id="general" class="tabcontent">
+            <h2>General Calculations for LLZ</h2>
+
+            <!-- General Inputs for Localizer Calibration -->
+            <div class="input-group">
+              <!--  <h3>General Inputs</h3>  -->
+          <label for="powerInputLLZ">Input Power (dBm):</label>
+<input type="number" id="powerInputLLZ" placeholder="Enter dBm">
+
+<button onclick="convertPowerLLZ()">Convert Power</button>
+
+<p id="powerOutputLLZ">
+  <span class="labelText">Power:</span>
+  <span id="outputPowerLLZ" class="outputValue"></span>
+</p>
+ <span class="info-button" onclick="showPopup('formulaPower')">i</span> 
+                 
+
+
+
+                <label for="distanceLLZ">Distance (meters):</label>
+<input type="number" id="distanceLLZ" placeholder="Enter Distance">
+
+<button onclick="convertDistanceLLZ()">Convert to DDM %</button>
+
+<p id="ddmOutputLLZ">
+  <span class="labelText">DDM %:</span>
+  <span id="outputDDMLLZ" class="outputValue"></span>
+</p>
+ <span class="info-button" onclick="showPopup('formulaDDM')">i</span>
+
+              <label for="distanceCurrentLLZ">DDM % TO Current Calculation (MKA):</label>
+<input type="number" id="distanceCurrentLLZ" placeholder="Enter DDM %">
+
+<button onclick="calculateCurrentLLZ()">Calculate Current</button>
+
+<p id="currentOutputLLZ">
+  <span class="labelText">Current:</span>
+  <span id="outputCurrentLLZ" class="outputValue"></span>
+</p>
+ <span class="info-button" onclick="showPopup('formulaCurrent')">i</span>
+    <h2>General Calculations for GP</h2>          
+              
+    <label for="angleAssignGP">Angle Assign (default 3°):</label>
+<input type="number" id="angleAssignGP" placeholder="Enter Angle (default is 3)">
+
+<label for="angleEnterGP">Angle Enter (°):</label>
+<input type="number" id="angleEnterGP" placeholder="Enter Angle">
+
+<button onclick="calculateDDMandCurrentGP()">Calculate DDM % and Current</button>
+
+<p id="ddmOutputGP">
+    <span class="labelText">DDM %:</span>
+    <span id="outputDDMGP" class="outputValue"></span>
+</p>
+
+<p id="currentOutputGP">
+    <span class="labelText">Current:</span>
+    <span id="outputCurrentGP" class="outputValue"></span>
+</p>
+  <span class="info-button" onclick="showPopup('formulaDDMGP')">i</span>
+            </div>
+            </div>
+      
+      
+      
+      
+        <!-- ILS ICAO LIMITS Section -->
+      
+       
+       <!-- Localizer Limits Section -->
+      <!--
+   <div id="limits" class="tabcontent">    
+       <div class="category-filter">
+     <h6>ICAO ILS LIMITS</h6>
+    <label for="categorySelect">Select Category:</label> 
+    <select id="categorySelectLimits" onchange="filterCategoryLimits()">
+        <option value="cat1">CAT-I</option>
+        <option value="cat2">CAT-II</option>
+        <option value="cat3">CAT-III</option>
+    </select>
+</div> 
+  
+    <div class="llz-section">
+        <h4>LOCALIZER (LLZ)</h4>
+        <table class="limits-table">
+            <thead>
+                <tr>
+                    <th>LIMITS</th>
+                    <th>ICAO</th>
+                    <th>ALARM</th>
+                    <th>REMARKS</th>
+                </tr>
+            </thead>
+            <tbody id="llzLimitsTableBodyLimits">
+                <!-- CAT-I Default Values -->
+      <!--
+                <tr>
+                    <td>Frequency</td>
+                    <td>108 - 111.975 MHz</td>
+                    <td>±0.002%</td>
+                    <td>NA</td>
+                </tr>
+              <tr>
+                    <td>Coverage</td>
+                    <td>46.3 km (25 NM) within plus or minus 10 degrees from the front course line,
+31.5 km (17 NM) between 10 degrees and 35 degrees from the front course line,
+18.5 km (10 NM) outside of plus or minus 35 degrees from the front course line 
+</td>
+                    <td>NA</td>
+                    <td>the limits may be reduced down to
+33.3 km (18 NM) within the plus or minus 10-degree sector and 18.5 km (10 NM) within the remainder of the coverage</td>
+              </tr>
+                <tr>
+                    <td>Course Width</td>
+                    <td>17%</td>
+                    <td>±15%</td>
+                    <td>SBO Power Adjustments</td>
+                </tr>
+                <tr>
+                    <td>Center Line Deviation</td>
+                    <td>35 FT or 10.5 M</td>
+                    <td>±15 MKA</td>
+                    <td>NA</td>
+                </tr>
+              <tr>
+                    <td>DDM & SDM</td>
+                    <td>20±2 & 40±2</td>
+                    <td>NA</td>
+                    <td>NA</td>
+                </tr>
+               <tr>
+                    <td>90/150 Hz Frequency</td>
+                    <td>2.5%</td>
+                    <td>NA</td>
+                    <td>Recommeded Limits 1.5%</td>
+                </tr>
+              <tr>
+                    <td>90/150 Hz Modulation</td>
+                    <td>20±2 & 20±2</td>
+                    <td>NA</td>
+                    <td>NA</td>
+                </tr>
+                <tr>
+                    <td>90/150 Hz Phasing</td>
+                    <td>20 Degree</td>
+                    <td>NA</td>
+                    <td>Phase Difference Limits</td>
+                </tr>
+              <tr>
+                    <td>Zero Radiation Period</td>
+                    <td>10 Second</td>
+                    <td>NA</td>
+                    <td>Monitor Action Time</td>
+                </tr>
+               <tr>
+                    <td>Field Strength</td>
+                    <td>For Facility Performance Category I localizers, the minimum field strength on the ILS glide path and within the localizer course sector from a distance of 18.5 km (10 NM) to a height of 60 m (200 ft) above the horizontal plane containing the threshold shall be not less than 90 microvolts per metre (minus 107 dBW/m2)</td>
+                    <td>NA</td>
+                    <td>the field strength shall be not less than 40 microvolts per metre (minus 114 dBW/m2)</td>
+                </tr>
+                <tr>
+                    <td>Course Structure</td>
+                    <td>Outer limit of coverage to ILS Point “A” 0.031(30 MKA)
+ILS Point “A” to ILS Point “B” 0.031(30 MKA) at ILS Point “A” decreasing at a linear rate to 0.015(15 MKA) at ILS Point “B”
+ILS Point “B” to ILS Point “C” 0.015
+</td>
+                    <td>NA</td>
+                    <td>NA</td>
+                </tr>
+             
+            </tbody>
+        </table>
+    </div>
+-->
+    <!-- Glide Path Limits Section -->
+  <!--
+    <div class="gp-section">
+        <h4>GLIDE PATH (GP)</h4>
+        <table class="limits-table">
+            <thead>
+                <tr>
+                    <th>LIMITS</th>
+                    <th>ICAO</th>
+                    <th>ALARM</th>
+                    <th>REMARKS</th>
+                </tr>
+            </thead>
+            <tbody id="gpLimitsTableBodyLimits">
+                <!-- CAT-I Default Values -->
+  <!--
+                <tr>
+                    <td>Frequency</td>
+                    <td>328.6 - 335.4 MHz</td>
+                    <td>±0.002%</td>
+                    <td>NA</td>
+                </tr>
+              <tr>
+                    <td>Coverage</td>
+                    <td>in sectors of 8 degrees in azimuth on each side of the centre line of the ILS glide path, to a distance of at least
+18.5 km (10 NM) up to 1.75 θ and down to 0.45 θ above the horizontal or to such lower angle, down to 0.30 θ
+
+</td>
+                    <td>NA</td>
+                    <td>NA</td>
+              </tr>
+                <tr>
+                    <td>Half Course Width</td>
+                    <td>0.36θ</td>
+                    <td>0.07 θ TO 0.14 θ</td>
+                    <td>SBO Power Adjustments</td>
+                </tr>
+                <tr>
+                    <td>Glide Angle</td>
+                    <td>7.5%</td>
+                    <td>±45 MKA</td>
+                    <td>Given at ±35 MKA</td>
+                </tr>
+               <tr>
+                    <td>Angular Displacement Sensitivity</td>
+                    <td>25%</td>
+                    <td>NA</td>
+                    <td>NA</td>
+                </tr>
+              <tr>
+                    <td>DDM & SDM</td>
+                    <td>40±2.5 & 80±5</td>
+                    <td>NA</td>
+                    <td>NA</td>
+                </tr>
+               <tr>
+                    <td>90/150 Hz Frequency</td>
+                    <td>2.5%</td>
+                    <td>NA</td>
+                    <td>Recommeded Limits 1.5%</td>
+                </tr>
+               <tr>
+                    <td>90/150 Hz Modulation</td>
+                    <td>25±2.5 & 55±2.5</td>
+                    <td>NA</td>
+                    <td>NA</td>
+                </tr>
+                <tr>
+                    <td>90/150 Hz Phasing</td>
+                    <td>20 Degree</td>
+                    <td>NA</td>
+                    <td>Phase Difference Limits</td>
+                </tr>
+              <tr>
+                    <td>Zero Radiation Period</td>
+                    <td>10 Second</td>
+                    <td>NA</td>
+                    <td>Monitor Action Time</td>
+                </tr>
+               <tr>
+                    <td>Field Strength</td>
+                    <td>400 microvolts per metre (minus 95 dBW/m2)</td>
+                    <td>NA</td>
+                    <td>Performance Category I glide
+paths, this field strength shall be provided down to a height of 30 m (100 ft)</td>
+                </tr>
+                <tr>
+                    <td>Course Structure</td>
+                    <td>Outer limit of coverage to
+ILS Point “C” 0.035 
+
+</td>
+                    <td>NA</td>
+                    <td>NA</td>
+                </tr>
+              
+            </tbody>
+        </table>
+    </div>
+</div>
+ -->     
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+         <!-- LLZ Calibration Adjustments -->
+      
+  
+        
+ 
+
+  <div id="llz" class="tabcontent">
+            
+            
+                <!-- LLZ Calibration (Left Column) -->
+                <section class="calibration-section" id="llz-calibration">
+            
+          <h2>Localizer(LLZ)</h2> 
+            <div class="input-group">
+                                                  
+<h4>Course Width Adjustments</h4>
+
+<label for="runwayLengthLLZ">Runway Length + Localizer SetBack Area (m):</label>
+<input type="number" id="runwayLengthLLZ" placeholder="Enter Total Length">
+<button onclick="calculateCourseWidthLLZ()">Calculate Course Width</button>
+
+<p id="courseWidthOutputLLZ">
+    <span class="labelText">Course Width:</span> 
+    <span id="outputCourseWidthLLZ" class="outputValue"></span>
+</p>
+<span class="info-button" onclick="showPopup('formulaCourseWidth')">i</span>
+              
+                  
+              
+               <label for="sboPresentLLZ">SBO Present (dBm):</label>
+<input type="number" id="sboPresentLLZ" placeholder="dBm">
+
+<label for="widthMeasureLLZ">Course Width Measure by FIU:</label>
+<input type="number" id="widthMeasureLLZ" placeholder="Degree">
+
+<label for="widthRequiredLLZ">Course Width Required:</label>
+<input type="number" id="widthRequiredLLZ" placeholder="Degree">
+
+<label for="mulFactorLLZ">Multiplier Factor:</label>
+<input type="number" id="mulFactorLLZ">
+
+<button onclick="calculateSBORequiredLLZ()">Calculate SBO Required</button>
+
+<!-- This part contains the label and the calculated value with separate colors -->
+<p id="sboRequiredOutputLLZ">
+    <span class="labelText">SBO Required:</span> 
+    <span id="outputSBORequiredLLZ" class="outputValue"></span>
+</p>
+<span class="info-button" onclick="showPopup('formulaSBORequired')">i</span>
+
+           
+          </div>
+
+            <!-- LLZ Alarms -->
+            <h3>Alarm Settings</h3>
+            <div class="input-group">
+              
+              <h4>Calculate Lowest to Highest Value for Course Width</h4>
+
+<div class="input-group">
+    <label for="inputX">Commissioned Course Width: </label>
+    <input type="number" id="inputX" placeholder="Enter value for Course Width">
+</div>
+
+<div class="input-group">
+    <label for="inputY">Percentage Variable: </label>
+    <input type="number" id="inputY" placeholder="Enter percentage Variability">
+</div>
+
+<button onclick="calculateValues('inputX', 'inputY', 'result1')">Calculate Commissioned Limit</button>
+
+<div class="output-group">
+    <p id="result1">
+        <span class="labelText">Course Width Limit:</span> 
+        <span id="outputResult1" class="outputValue"></span>
+    </p>
+</div>
+
+
+ 
+    
+
+              
+          <div class="input-group">
+    <label for="inputP">Assigned Course Width: </label>
+    <input type="number" id="inputP" placeholder="Enter value for Course Width">
+</div>
+
+<div class="input-group">
+    <label for="inputQ">Percentage Variable: </label>
+    <input type="number" id="inputQ" placeholder="Enter percentage Variability">
+</div>
+
+<button onclick="calculateValuesA('inputP', 'inputQ', 'result2')">Calculate Assigned Limit</button>
+
+<div class="output-group">
+    <p id="result2">
+        <span class="labelText">Assigned Course Width Limit:</span>
+        <span id="outputValue1" class="outputValue"></span>
+    </p>
+</div>
+
+
+              
+              
+                                                                   
+           <h4>Course Width Alarm</h4>
+
+<label for="alarmPercentageLLZN">Alarm Percentage for Narrow Course Width (%):</label> 
+<input type="number" id="alarmPercentageLLZN" placeholder="Enter percentage"> 
+<button onclick="calculateAlarmLLZN()">Calculate SBO for Narrow Alarm</button> 
+<p id="sboNarrowOutputLLZ">
+  <span class="labelText">SBO for Narrow Alarm:</span>
+  <span class="outputValue" id="outputNarrowValue"></span>
+</p>
+<span class="info-button" onclick="showPopup('formulaSBONarrow')">i</span>
+
+<label for="alarmPercentageLLZW">Alarm Percentage for Wide Course Width (%):</label> 
+<input type="number" id="alarmPercentageLLZW" placeholder="Enter percentage"> 
+<button onclick="calculateAlarmLLZW()">Calculate SBO for Wide Alarm</button> 
+<p id="sboWideOutputLLZ">
+  <span class="labelText">SBO for Wide Alarm:</span>
+  <span class="outputValue" id="outputWideValue"></span>
+</p>
+<span class="info-button" onclick="showPopup('formulaSBOWide')">i</span>
+
+ <!-- Position Alarm -->
+              
+  <div class="category-filter">
+     <h4>Position Alarm</h4>
+    <label for="categorySelect">Select Category:</label> 
+    <select id="categorySelect" onchange="filterCategory()">
+        <option value="cat1">CAT-I</option>
+        <option value="cat2">CAT-II</option>
+        <option value="cat3">CAT-III</option>
+    </select>
+</div>             
+  <!-- Table for Limits, Category, ICAO, Alarm, and AAI -->
+<table class="limits-table">
+    <thead>
+        <tr>
+            <th>LIMITS</th>
+            <th>CATEGORY</th>
+            <th>ICAO</th>
+            <th>ALARM</th>
+            <th>AAI</th>
+        </tr>
+    </thead>
+    <tbody id="limitsTableBody">
+        <!-- CAT-I Default Values -->
+        <tr>
+            <td>CENTER LINE</td>
+            <td>CAT-I</td>
+            <td>35 FT OR 10.5 M OR ±14.6 MKA</td>
+            <td>±15 MKA</td>
+            <td>±12 MKA</td>
+        </tr>
+    </tbody>
+</table>                
+                  </div>
+
+              </section>            
+              
+              
+                  <!-- New Inputs for Clearance Current for Alarm -->
+<div class="input-group">
+  <h4>Clearance Current Alarm</h4>
+  
+  <label for="presentClearancePowerDBM">Present Clearance Power (dBm):</label>
+  <input type="number" id="presentClearancePowerDBM" placeholder="Enter Present Clearance Power (dBm)">
+  
+  <label for="minClearanceCurrentMKA">Minimum Clearance Current (MKA):</label>
+  <input type="number" id="minClearanceCurrentMKA" placeholder="Enter Minimum Clearance Current (MKA)">
+  
+  <button onclick="calculateClearanceCurrent()">Calculate Clearance Current for Alarm</button>
+
+  <p id="clearanceCurrentOutput">
+    <span class="labelText">Clearance Current for Alarm:</span>
+    <span id="outputClearanceValue" class="outputValue"></span>
+  </p>  <span class="info-button" onclick="showPopup('formulaclearancecurrentoutput')">i</span>
+</div>
+</div>
+  
+
+
+  
+
+
+        <div id="gp" class="tabcontent">
+
+        <!-- Glide Path Calibration (GP) Section -->
+        <section class="calibration-section" id="gp-calibration">
+           <h2>GlidePath(GP)</h2>  
+
+            <!-- General Inputs for Glide Path Calibration -->
+
+            <!-- GP Calibration Adjustments -->
+          
+          
+          
+          
+           
+          <div class="input-group">
+            
+            
+                <h4>Antenna Height Calculator</h4>
+    
+    <div class="input-section">
+        <label for="angleAssign">Enter Assigned Angle (default = 3): </label>
+        <input type="number" id="angleAssign" value="3" step="0.01" placeholder="Enter Angle">
+        <br>
+        <label for="angleFound">Enter Found Angle: </label>
+        <input type="number" id="angleFound" step="0.01" placeholder="Enter Angle">
+        <br><br>
+
+    
+    <div class="radio-container">
+        <div class="radio-item">
+            <label for="symmetric">Symmetric Course Width</label>
+            <input type="radio" name="courseType" id="symmetric" value="symmetric" checked>
+        </div>
+        <div class="radio-item">
+            <label for="asymmetric">Asymmetric Course Width</label>
+            <input type="radio" name="courseType" id="asymmetric" value="asymmetric">
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button onclick="calculate()">Calculate</button>
+    </div>
+
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>Antenna</th>
+                <th>Height</th>
+                <th>Slot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Upper Antenna (A3)</td>
+                <td id="a3-height"></td>
+                <td id="a3-slot"></td>
+            </tr>
+            <tr>
+                <td>Middle Antenna (A2)</td>
+                <td id="a2-height"></td>
+                <td id="a2-slot"></td>
+            </tr>
+            <tr>
+                <td>Lower Antenna (A1)</td>
+                <td id="a1-height"></td>
+                <td id="a1-slot"></td>
+            </tr>
+        </tbody>
+    </table>
+            
+            
+            
+            
+            
+  <h4>Course Width Adjustments</h4>
+  
+  <label for="middleAntennaDDM">Middle Antenna DDM (With Sign):</label>
+  <input type="number" id="middleAntennaDDM" placeholder="Enter Middle Antenna DDM">
+  
+  <label for="widthMeasureGP">Width Measure:</label>
+  <input type="number" id="widthMeasureGP" placeholder="Enter Width Measure">
+  
+  <label for="widthRequiredGP">Width Required:</label>
+  <input type="number" id="widthRequiredGP" placeholder="Enter Width Required">
+  
+  <button onclick="calculateDDMsGP()">Calculate DDMs for Antennas</button>
+
+  <p id="lowerDDMOutput">
+    <span class="labelText">Lower Antenna DDM-A1:</span>
+    <span id="outputLowerDDM" class="outputValue"></span>
+  </p>
+  
+  <p id="middleDDMOutput">
+    <span class="labelText">Middle Antenna DDM-A2:</span>
+    <span id="outputMiddleDDM" class="outputValue"></span>
+  </p>
+  
+  <p id="upperDDMOutput">
+    <span class="labelText">Upper Antenna 90 Level-A3:</span>
+    <span id="outputUpperDDM90" class="outputValue"></span>
+  </p>
+  
+  <p id="upperDDMOutput150">
+    <span class="labelText">Upper Antenna 150 Level-A3:</span>
+    <span id="outputUpperDDM150" class="outputValue"></span>
+  </p>
+
+  <span class="info-button" onclick="showPopup('formulaMiddleAntenna')">i</span>
+</div>
+
+
+
+<h3>Alarm Settings</h3>
+<div class="input-group">
+  <h4>Course Width Alarm</h4>
+
+  <label for="alarmPercentageGP">Alarm Percentage (%):</label>
+  <input type="number" id="alarmPercentageGP" placeholder="Enter Alarm Percentage">
+
+  <button onclick="calculateAlarmGP()">Calculate Alarm for GP</button>
+
+  <p id="gpLowerAlarmOutput">
+    <span class="labelText">Lower Antenna DDM-A1=</span>
+    <span id="outputLowerAlarm" class="outputValue"></span>
+  </p>
+
+  <p id="gpMiddleAlarmOutput">
+    <span class="labelText">Middle Antenna DDM-A2=</span>
+    <span id="outputMiddleAlarm" class="outputValue"></span>
+  </p>
+
+  <p id="gpUpperAlarmOutput90">
+    <span class="labelText">Upper Antenna 90 Level-A3=</span>
+    <span id="outputUpperAlarm90" class="outputValue"></span>
+  </p>
+
+  <p id="gpUpperAlarmOutput150">
+    <span class="labelText">Upper Antenna 150 Level-A3=</span>
+    <span id="outputUpperAlarm150" class="outputValue"></span>
+  </p>
+
+  <span class="info-button" onclick="showPopup('formulaGPNarrowAlarm')">i</span>
+</div>
+
+                     
+          
+ <div class="category-filterGP">
+     <h4>Glide Angle Alarm</h4>
+    <label for="categorySelectGP">Select Category:</label> 
+    <select id="categorySelectGP" onchange="filterCategoryGP()">
+        <option value="cat1">CAT-I</option>
+        <option value="cat2">CAT-II</option>
+        <option value="cat3">CAT-III</option>
+    </select>
+</div>
+
+<!-- Table for Limits, Category, ICAO, Alarm, and AAI -->
+<table class="limits-tableGP">
+    <thead>
+        <tr>
+            <th>LIMITS</th>
+            <th>CATEGORY</th>
+            <th>ICAO</th>
+            <th>ALARM</th>
+            <th>AAI</th>
+        </tr>
+    </thead>
+    <tbody id="limitsTableBodyGP">
+        <!-- CAT-I Default Values -->
+        <tr>
+            <td>GLIDE ANGLE</td>
+            <td>CAT-I</td>
+            <td>7.5%</td>
+            <td>±45 MKA</td>
+            <td>±35 MKA</td>
+        </tr>
+    </tbody>
+</table>                         
+              
+    <div class="input-group">
+  <h4>Clearance Current Alarm</h4>
+    <h5>Clearance Current for Alarm(A1 & A3):</h5> <h7>190 MKA</h7>
+                                            
+                             </div>
+              </section>
+ 
+      </div>
+      
+ 
+  
+   
+  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+     
+        <div id="formulaPower" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaPower')">&times;</span>
+                <p>Power (mW) = 10^(dBm / 10)</p>
+            </div>
+        </div>
+
+        <!-- Course Width Output -->
+        
+        <div id="formulaCourseWidth" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaCourseWidth')">&times;</span>
+                <p>Course Width = 2 * tan⁻¹(106.68 / y)</p>
+            </div>
+        </div>
+
+        
+        <div id="formulaDDM" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaDDM')">&times;</span>
+                <p>DDM = 0.145 * Distance</p>
+            </div>
+        </div>
+
+        <!-- Current Output -->
+        
+        <div id="formulaCurrent" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaCurrent')">&times;</span>
+                <p>Current =9.67 * DDM %</p>
+            </div>
+        </div>
+
+        <!-- SBO Required Output -->
+      
+        <div id="formulaSBORequired" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaSBORequired')">&times;</span>
+                <p>SBO Required = SBO Present + Mul. Factor * log(Width Measure / Width Required)</p>
+            </div>
+        </div>
+
+      
+
+        <!-- SBO Narrow & Wide Alarm Output -->
+        
+        <div id="formulaSBONarrow" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaSBONarrow')">&times;</span>
+                
+                <p>SBO for Narrow = 20 * log(1/(1 - Alarm % / 100)) + SBO Required</p>
+            </div>
+        </div>
+      
+              <div id="formulaSBOWide" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaSBOWide')">&times;</span>
+                <p>SBO for Wide = 20 * log(1 /(1 + Alarm % / 100)) + SBO Required</p>
+                
+            </div>
+        </div>
+
+        <!-- DDM % Output for GP -->
+       
+        <div id="formulaDDMGP" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaDDMGP')">&times;</span>
+                <p>DDM % = 24.3056 * (Angle Assign - Angle Entered)</p>
+              <p>Current(MKA) = 8.57 * DDM%</p>
+            </div>
+        </div>
+
+      
+
+        <!-- Middle Antenna DDM-A2 Output -->
+       
+        <div id="formulaMiddleAntenna" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaMiddleAntenna')">&times;</span>
+                <p>Lower Antenna DDM-A1 = (Width Measure / Width Required * Middle Antenna DDM) * 0.25</p>
+                <p>Middle Antenna DDM-A2 = (Width Measure / Width Required) * Middle Antenna DDM</p>
+              <p>Upper Antenna 90/150 Level-A3 = (Width Measure / Width Required * Middle Antenna DDM) * 0.00125</p>
+            </div>
+        </div>
+
+       
+        <!-- GP Narrow & Wide Alarm Outputs -->
+       
+        <div id="formulaGPNarrowAlarm" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaGPNarrowAlarm')">&times;</span>
+                <p>Narrow Alarm: Middle Antenna DDM-A2 = Middle Antenna DDM-A2 / (1 - 0.01 * Alarm %)</p>
+                <p>Wide Alarm: Middle Antenna DDM-A2 = Middle Antenna DDM-A2 / (1 + 0.01 * Alarm %)</p>
+            </div>
+        </div>
+<div id="formulaclearancecurrentoutput" class="popup-modal">
+            <div class="popup-content">
+                <span class="close" onclick="hidePopup('formulaclearancecurrentoutput')">&times;</span>
+                <p>Minimum Clearance Current= presentClearancePowerDBM + (20 * Math.log10(160 / minClearanceCurrentMKA))</p>
+                
+            </div>
+        </div>
+       
+<div class="button-container">
+    <button2 onclick="resetValues()">Reset</button2>
+    <button2 onclick="printPage()">Print</button2>
+</div>
+
+
+
+ 
+   </div>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,427 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #4cae97;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #F8F8FF;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+h1{
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 30px; /* Main heading size */
+    color: black;
+  
+}
+h2 {
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 24x; /* Main heading size */
+    color: black;
+}
+h3{
+    text-align: CENTER;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 24px; /* Main heading size */
+    color: black;
+}
+h4{
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 21px; /* Main heading size */
+    color: black;
+}
+h5 {
+    margin: 10px 0;
+    font-size: 1.40em;
+   color: blue;
+  font-weight: bold;
+}
+h7 {
+    margin: 10px 0;
+    font-size: 1.60em;
+   color: red;
+  font-weight: bold;
+}
+h6{
+    margin: 10px 0;
+    font-size: 24px;
+   color: black;
+  font-weight: bold;
+  text-align: center;
+    
+}
+
+
+
+.input-group {
+    margin: 15px 0;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  font-size: 18px;
+   color: black;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+   font-size: 1.0em;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4cae97;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ae4c53;
+}
+
+p1 {
+    margin: 10px 0;
+    font-size: 1.40em;
+   color: red;
+  font-weight: bold;
+}
+
+.watermark {
+    position: fixed; /* Keep it in a fixed position */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%) rotate(-45deg); /* Center and rotate */
+    font-size: 75px; /* Adjust size as needed */
+    color: rgba(0, 0, 0, 0.04); /* Light color for watermark */
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 999; /* Make sure it’s on top of other elements */
+      white-space: nowrap; /* Prevent wrapping */
+  }
+.credit {
+    position: fixed; /* Keep it in a fixed position */
+    bottom: 10px; /* Position from the bottom */
+    right: 10px; /* Position from the right */
+    font-size: 11px; /* Adjust size as needed */
+    color: black; /* Slightly darker for readability */
+  font-weight: bold;
+    z-index: 999; /* Ensure it's on top of other elements */
+    font-family: Arial, sans-serif; /* Font style */
+}
+/* Popup Modal Styles */
+.popup-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0,0.9); /* Black background with transparency */
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Maximum width */
+      font-size: 1.40em;
+   color: red;
+  font-weight: bold;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Info Button Styling */
+.info-button {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #5cb85c;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
+
+.button2-container {
+    margin-top: 20px; /* Space above the buttons */
+}
+
+button2 {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    padding: 10px 15px; /* Padding for buttons */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    margin-right: 10px; /* Space between buttons */
+}
+
+button2:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+#error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Hide initially, to show after login */
+#ilsContainer {
+    display: none;
+}
+
+
+
+
+
+
+/* Style for the tabs */
+.tab {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab button {
+    background-color: #4cae97;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 18px;
+     color: white;
+  font-weight: bold;
+}
+
+.tab button:hover {
+    background-color: #ae4c53;
+}
+
+.tab button.active {
+    background-color: #34eb40;
+  font-size: 1.40em;
+   color: black;
+  font-weight: bold;
+}
+
+/* Style for the tab content */
+.tabcontent {
+    display: none; /* Hidden by default */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-top: none;
+  
+}
+
+/* Show active tab content */
+.tabcontent.active {
+    display: block;
+}
+
+
+
+.category-filter {
+    margin-bottom: 20px;
+}
+
+.category-filter select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.limits-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.limits-table th, .limits-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.limits-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+
+
+.category-filterGP {
+    margin-bottom: 20px;
+}
+
+.category-filterGP select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.limits-tableGP {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.limits-tableGP th, .limits-tableGP td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.limits-tableGP th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+
+
+
+
+.category-filterlimits {
+    margin-bottom: 20px;
+}
+
+.category-filterlimits select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.limits-tablelimits {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.limits-tablelimits th, .limits-tablelimits td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.limits-tablelimits th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Style for the output label (text before the value) */
+.labelText  {
+    color: blue; /* Text color */
+    font-weight: bold;
+    font-size: 1.40em;
+}
+
+/* Style for the actual output value (calculated result) */
+.outputValue {
+    color: red; /* Different color for the output value (OrangeRed) */
+    font-weight: bold;
+    font-size: 1.6em;
+}
+
+.input-section {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 50%;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.arrow-down {
+    color: red;
+  font-weight: bold;
+    font-size: 35px;
+}
+
+.arrow-up {
+    color: green;
+  font-weight: bold;
+    font-size: 35px;
+}
+ 
+
+  label {
+            font-size: 16px; /* Increase font size of labels */
+            margin-right: 1px; /* Space between label and radio button */
+        }
+
+        /* Radio button container */
+        .radio-container {
+            margin: 20px 0; /* Space around the radio buttons */
+        }
+
+        .radio-item {
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Align items vertically */
+            margin-bottom: 5px; /* Space between each radio item */
+        }
+
+        input[type="radio"] {
+            margin-left: 10px; /* Space between label and radio button */
+            transform: scale(1.4); /* Increase size of the radio button */
+        }
