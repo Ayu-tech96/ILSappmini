@@ -265,8 +265,8 @@ function printPage() {
 // Function to validate the login
 function validateLogin() {
     // Set your predefined username and password
-    const validUsername = "ils";
-    const validPassword = "ils";
+    const validUsername = "ils01";
+    const validPassword = "ils01";
 
     // Get the input values
     const username = document.getElementById("username").value;
