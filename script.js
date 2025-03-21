@@ -96,7 +96,7 @@ function calculateSBORequiredLLZ() {
 function calculateAlarmLLZN() {
     let alarmPercentageN = parseFloat(document.getElementById("alarmPercentageLLZN").value);
     let factor = parseFloat(document.getElementById("widthRequiredLLZ").value); // commissioned width is taken for calculation
-    let sboRequired = parseFloat(document.getElementById("sboRequiredOutputLLZ").innerText.split(" ")[2]);
+    let sboRequired = parseFloat(document.getElementById("sbo").value);
 
     if (!isNaN(alarmPercentageN) && !isNaN(sboRequired)) {
         let sboNarrow = 20 * Math.log10(1 / (1 - (alarmPercentageN / 100))) + sboRequired;
@@ -112,7 +112,7 @@ function calculateAlarmLLZN() {
 function calculateAlarmLLZW() {
     let alarmPercentageW = parseFloat(document.getElementById("alarmPercentageLLZW").value);
     let factor = parseFloat(document.getElementById("widthRequiredLLZ").value); // commissioned width is taken for calculation
-    let sboRequired = parseFloat(document.getElementById("sboRequiredOutputLLZ").innerText.split(" ")[2]);
+    let sboRequired = parseFloat(document.getElementById("sbo").value);
 
     if (!isNaN(alarmPercentageW) && !isNaN(sboRequired)) {
         let sboWide = 20 * Math.log10(1 / (1 + (alarmPercentageW / 100))) + sboRequired;
